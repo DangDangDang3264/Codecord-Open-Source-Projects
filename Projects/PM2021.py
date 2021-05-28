@@ -1,7 +1,10 @@
 '''Password Manager 2021
-
 Version 1.0 pub.5/28/2021
 Written by DangDangDang
+
+Notes:
+-This was designed deliberately to be very light and requires only one import (random is installed with python).
+-This code may have a few redundant features/lines/functions because it was written quickly, but it works and might be updated in the future.
 '''
 
 import random
@@ -23,7 +26,10 @@ def constructCharacterDictionary(nums = num_list, chars = char_list, caps = capi
     special -- (list) The character list containing special characters for use in password generation.
     options -- (dict) The options relating to password parameters.
 
-    Notes: 
+    Returns:
+    char_dict -- (dict) The character dictionary for use in password generation.
+
+    Notes:
     -Each character list can be expanded and this function need not be edited. 
     '''
     used_characters = []
@@ -54,6 +60,9 @@ def convertStringToNums(message, char_dict = char_dict):
 
     Keyword Arguments: 
     char_dict -- (dict) The character dictionary used to convert the string into a number list, defaults to the master character dictionary.
+
+    Returns:
+    num_list -- (list) The number list derived from the message.
     '''
     num_list = []
     for a in message:
@@ -70,6 +79,9 @@ def convertNumsToString(num_list, char_dict = char_dict):
 
     Keyword Arguments: 
     char_dict -- (dict) The character dictionary used to convert the number list into a string, defaults to the master character dictionary.
+
+    Returns:
+    message -- (str) The message string derived from the number list.
     '''
     message = ""
     for item in num_list:
@@ -90,6 +102,9 @@ def generateNewPassword(char_dict = char_dict, options = password_options):
     Keyword Arguments:
     char_dict -- (dict) The character dictionary used to build passwords.
     options -- (dict) The options relating to password parameters.
+
+    Returns:
+    new_password -- (str) A randomized password.
 
     Notes:
     -Just use the defaults for this one, the generator just grabs the length from options and uses the char_dict.
@@ -184,6 +199,9 @@ def basicPWGeneratorTextUI(char_dict = char_dict, options = password_options):
     char_dict1 = constructCharacterDictionary()
     return generateNewPassword(char_dict1, options)
 
-while True:
-    print(basicPWGeneratorTextUI())
-    print()
+if __name__ == '__main__':
+    while True:
+        print(basicPWGeneratorTextUI())
+        print()
+else:
+    pass
