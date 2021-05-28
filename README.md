@@ -2,7 +2,9 @@
 More to come here in the future. This is just the Codecord repository, enjoy!
 
 ---Internal Python Style Guide---
+
 A) Case Standards
+
     1) Variables should be written in one of two formats:
         a) all lowercase with underscores between words.
             ex: new_variable
@@ -14,12 +16,15 @@ A) Case Standards
         ex: newClass
 
 B) Classes
+
     1) Class variables should be defined in the '__init__' statement and not parentheses after the class declaration.
 
 C) Docstrings
+
     1) Docstrings should be used with every function.
     2) The format of docstrings should follow the following format:
-        def exampleFunction(arg1, arg2, kwarg1=None)
+        
+        def exampleFunction(arg1, arg2, kwarg1=None
             '''Describe the purpose of the function here. The description should be relatively short.
 
             Arguments:
@@ -40,8 +45,10 @@ C) Docstrings
             return result
 
 D) Program Notes
+
     1) Programs should have a notes section starting on line 1.
     2) The format of the notes section should follow the following format:
+    
         '''Program Name
         Version 1.0 pub.1/01/2001
         Written by [Author Handle]
