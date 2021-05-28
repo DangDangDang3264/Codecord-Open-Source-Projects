@@ -1,21 +1,46 @@
+'''Dice Statistics Program
+Version 1.0 pub.5/28/2021
+Written by DangDangDang
+
+Notes:
+    -None
+'''
+
 import random
 import os
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 
 def cls():
+    '''Clears the command prompt.
+
+    Notes:
+        -May only work on Windows 10.
+    '''
     os.system('cls' if os.name=='nt' else 'clear')
-    return True
 
 cls()
 
 roll_log = []
 
 def printRollLog(roll_log = roll_log):
+    '''Prints the roll log using tabulate to make it look nice.
+
+    Notes:
+        -Rolls from the rollStatRand function do not output to the roll log.
+    '''
     cls()
     print(tabulate(roll_log, headers = ["Number of Dice","Size of Dice","Modifier","Value"], tablefmt="pretty"))
 
 def parseText(text):
+    '''Converts a string into useable dice data.
+
+    Arguments:
+        text -- (str) Format: NdX+M where N is the number of dice to be rolled, X is the size of each dice, and M is the modifier (+ and - can be used).
+
+    Returns:
+        {"number":number, "size":size, "modifier":modifier} -- (dict) A formatted dictionary for use in dice rolls.
+    '''
     number = 0
     size = 0
     modifier = 0
@@ -52,6 +77,19 @@ def parseText(text):
     return {"number":number, "size":size, "modifier":modifier}
 
 def rollDice(number, size, modifier):
+    '''Rolls dice.
+
+    Arguments:
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+
+    Returns:
+        value -- (int) The sum of all rolls plus the modifier.
+
+    Notes:
+        -This function adds all rolls to the 'roll_log' list.
+    '''
     value = 0
     for n in range(number):
         value += random.randint(1,size)
@@ -60,22 +98,36 @@ def rollDice(number, size, modifier):
     return value
 
 def rollDice2(number, size, modifier):
+    '''Rolls dice without logging the roll.
+
+    Arguments:
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+
+    Returns:
+        value -- (int) The sum of all rolls plus the modifier.
+
+    Notes:
+        -This function does not add to the 'roll_log' list.
+    '''
     value = 0
     for n in range(number):
         value += random.randint(1,size)
     value += modifier
     return value
 
-#Depreciated
-def getProbabilities(input_list):
-    return_dict = dict()
-    items = set(input_list)
-    for n in items:
-        return_dict[n] = input_list.count(n) / len(input_list)
-    return return_dict
-
-#Depreciated
 def iterateRoll(size, roll):
+    '''(Depreciated) Iterates a list of integers for the 'rollStat' function.
+
+    Arguments:
+        size -- (int) Number of faces on each die.\n
+        roll -- (list) A list of integers representing an iterable roll.\n
+
+    Returns:
+        new_list -- (list) A list of integers representing an iterable roll.\n
+        False -- (bool) False is returned when the function can no longer iterate the roll.\n
+    '''
     new_list = roll
     length = len(new_list) - 1
     check_slot = 0
@@ -98,8 +150,20 @@ def iterateRoll(size, roll):
             run = False
             return False
 
-#Depreciated
-def rollStat(number, size, modifier=0):
+def rollStat(number, size, modifier):
+    '''(Depreciated) Generates the probability space for a dice roll.
+
+    Arguments:
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+
+    Returns:
+        stats -- (dict) The probability space of a roll. Format: {sum:probability out of 1}
+
+    Notes:
+        -This function uses an iteration paradigm that is notably slow.
+    '''
     sums = dict()
     current_roll = [1 for i in range(number)]
     current_sum = sum(current_roll) + modifier
@@ -125,6 +189,15 @@ def rollStat(number, size, modifier=0):
     return stats
 
 def iterateSumRoll(size, sums):
+    '''Iterates the 'sum space' by one dice roll.
+
+    Arguments:
+        size -- (int) Number of faces on each die.\n
+        sums -- (dict) The probability space of a roll. Format: {sum:frequeucy}\n
+
+    Returns:
+        new_sums (dict) The probability space of a roll. Format: {sum:frequeucy}
+    '''
     new_sums = dict()
     for a in sums:
         for b in [i for i in range(1,size + 1)]:
@@ -134,7 +207,17 @@ def iterateSumRoll(size, sums):
                 new_sums[a + b] = sums[a]
     return new_sums
 
-def rollStat2(number, size, modifier=0):
+def rollStat2(number, size, modifier):
+    '''Generates the probability space for a dice roll.
+
+    Arguments:
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+
+    Returns:
+        stats -- (dict) The probability space of a roll. Format: {sum:probability out of 1}
+    '''
     sums = dict()
     for i in [i for i in range(1, size + 1)]:
         sums[i] = 1
@@ -152,7 +235,18 @@ def rollStat2(number, size, modifier=0):
         new_stats[item + modifier] = stats[item]
     return new_stats
 
-def rollStatRand(number, size, modifier=0, sample_size=10000):
+def rollStatRand(number, size, modifier, sample_size=10000):
+    '''Approximates the probability space for a dice roll using random number generation.
+
+    Arguments:
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+        sample_size -- (int) Number of times to repeat the random dice roll.\n
+
+    Returns:
+        stats -- (dict) The probability space of a roll. Format: {sum:probability out of 1}
+    '''
     sums = dict()
     for i in range(sample_size):
         roll = rollDice2(number, size, modifier)
@@ -170,6 +264,16 @@ def rollStatRand(number, size, modifier=0, sample_size=10000):
     return stats
 
 def boundsReport(stats, lower_bound, upper_bound=None):
+    '''Returns the probability of rolls being inside and outside a bound.
+
+    Arguments:
+        stats -- (dict) The probability space of a roll. Format: {sum:probability out of 1}\n
+        lower_bound -- (int) The lower bound to check.\n
+        upper_bound -- (int) The upper bound to check. (If empty, upper bound is highest sum in stats)\n
+
+    Returns:
+        (dict) 
+    '''
     if upper_bound == None:
         upper_bound = max(stats)
     probability_in_bounds = 0
@@ -180,6 +284,17 @@ def boundsReport(stats, lower_bound, upper_bound=None):
     return {"Probability within bounds":probability_in_bounds, "Probablility without bounds":probability_out_bounds}
 
 def boundsReportQuarters(stats, number, size, modifier):
+    '''Returns a bounds report for quarters of the dice space.
+
+    Arguments:
+        stats -- (dict) The probability space of a roll. Format: {sum:probability out of 1}\n
+        number -- (int) Number of dice to be rolled.\n
+        size -- (int) Number of faces on each die.\n
+        modifier -- (int) Number to add/subtract to the sum of the rolls.\n
+
+    Returns:
+        (list)
+    '''
     bound_low = number + modifier
     bound_high = number * size + modifier
     bound_range = bound_high - bound_low
@@ -198,6 +313,7 @@ def boundsReportQuarters(stats, number, size, modifier):
     return [[bound_low, bound_Q1, bound_Q2, bound_Q3, bound_high],[prob_below_Q1, prob_below_Q2, prob_below_Q3],[prob_above_Q1, prob_above_Q2, prob_above_Q3],[prob_between_Q1_Q2, prob_between_Q1_Q3, prob_between_Q2_Q3]]
 
 def simpleTextUI():
+    '''Runs a simple text-based UI for dice statistics.'''
     cls()
     run = True
     while run:
@@ -278,4 +394,8 @@ def simpleTextUI():
             print("rollstat - runs the rollstat function, optional argument 'rollstat rand' will run a random version of rollstat")
             print("rollstat and rollstat rand use the same 'roll [number of dice]d[number of faces][+ or -][modifier]' structure after executing the command")
 
-simpleTextUI()
+if __name__ == '__main__':
+    while True:
+        simpleTextUI()
+else:
+    pass
