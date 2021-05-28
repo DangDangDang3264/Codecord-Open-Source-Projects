@@ -24,7 +24,7 @@ C) Docstrings
     1) Docstrings should be used with every function.
     2) The format of docstrings should follow the following format:
         
-        def exampleFunction(arg1, arg2, kwarg1=None
+        def exampleFunction(arg1, arg2, kwarg1=None)
             '''Describe the purpose of the function here. The description should be relatively short.
 
             Arguments:
