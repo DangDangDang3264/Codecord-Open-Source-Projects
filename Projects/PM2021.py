@@ -2,8 +2,6 @@
 
 Version 1.0 pub.5/28/2021
 Written by DangDangDang
-
-
 '''
 
 import random
