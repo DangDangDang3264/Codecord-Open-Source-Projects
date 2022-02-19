@@ -13,7 +13,7 @@ A) Case Standards
     2) Functions should be written in 'camel case' with the first letter lowercase.
         ex: newFunction(args*, kwargs**)
     3) Classes should be written in 'camel case' with the first letter capitalized.
-        ex: newClass
+        ex: NewClass
 
 B) Classes
 

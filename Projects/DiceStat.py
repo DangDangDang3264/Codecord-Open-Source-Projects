@@ -1,5 +1,5 @@
 '''Dice Statistics Program
-Version 1.0 pub.5/28/2021
+Version 1.01 pub.2/18/2022
 Written by DangDangDang
 
 Notes:
